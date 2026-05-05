@@ -1,0 +1,17 @@
+<svg width="2000" height="2000" viewBox="0 0 2000 2000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- India outline map with decorative paths -->
+  <path d="M800 400 Q900 380 950 420 L980 450 Q1000 480 980 520 L950 580 Q920 620 900 680 L880 750 Q870 800 850 850 L820 920 Q800 980 780 1020 L750 1080 Q720 1120 680 1140 L620 1160 Q570 1180 520 1170 L460 1150 Q410 1130 380 1100 L350 1060 Q320 1020 310 970 L300 920 Q295 870 300 820 L310 760 Q320 700 350 650 L380 600 Q420 550 470 520 L530 490 Q590 470 650 460 L720 450 Q760 440 800 400" 
+        stroke="#d4c5a0" stroke-width="1.5" fill="none" opacity="0.3"/>
+  
+  <!-- Additional decorative map lines -->
+  <path d="M600 500 Q700 480 800 500 M650 700 Q750 680 850 700 M550 900 Q650 880 750 900" 
+        stroke="#c8bfaa" stroke-width="1" opacity="0.25"/>
+  
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#c8bfaa" stroke-width="0.5" opacity="0.15"/>
+    </pattern>
+  </defs>
+  <rect width="2000" height="2000" fill="url(#grid)"/>
+</svg>
