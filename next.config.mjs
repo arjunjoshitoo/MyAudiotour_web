@@ -12,6 +12,18 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/privacy-policy.html",
+        destination: "/privacy-policy",
+      },
+      {
+        source: "/terms-of-service.html",
+        destination: "/terms-of-service",
+      },
+    ];
+  },
   async headers() {
     return [
       {

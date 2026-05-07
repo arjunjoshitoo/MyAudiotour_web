@@ -14,13 +14,13 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative max-w-[1200px] mx-auto px-6 md:px-10 w-full py-20 md:py-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+      <div className="relative max-w-[1200px] mx-auto px-6 md:px-10 w-full py-16 md:py-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
           {/* LEFT — Copy */}
           <div className="flex flex-col gap-6 lg:gap-8">
             {/* Headline */}
-            <h1 className="font-serif font-bold text-[clamp(3rem,6vw,5.5rem)] leading-[1.05] text-brand-ink">
+            <h1 className="font-serif font-bold text-[clamp(2.25rem,8vw,5.5rem)] leading-[1.05] text-brand-ink">
               India, finally{" "}
               <span className="relative inline-block">
                 <span className="relative z-10 font-normal">explained</span>
@@ -36,7 +36,7 @@ export default function Hero() {
             </h1>
 
             {/* Subheadline */}
-            <p className="font-sans text-lg md:text-xl text-brand-ink/60 leading-relaxed max-w-md">
+            <p className="font-sans text-base md:text-xl text-brand-ink/60 leading-relaxed max-w-md">
               MyAudiotour triggers rich audio stories the moment you arrive at 1,000+ landmarks across 70+ Indian cities. No headphones required.
             </p>
 
@@ -55,11 +55,11 @@ export default function Hero() {
           </div>
 
           {/* RIGHT — Visual collage */}
-          <div className="relative flex items-center justify-center lg:justify-end min-h-[520px]">
+          <div className="relative flex items-center justify-center lg:justify-end min-h-[420px] md:min-h-[520px] w-full">
 
             {/* Background landmark illustration */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-80 h-80 md:w-96 md:h-96 opacity-15 rounded-full overflow-hidden">
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 opacity-15 rounded-full overflow-hidden">
                 <Image
                   src="/Assets/LeWalk_style_Assets/taj-mahal.png"
                   alt=""
@@ -72,7 +72,7 @@ export default function Hero() {
 
             {/* App mockup — center, floating */}
             <div className="relative z-10 animate-float drop-shadow-2xl">
-              <div className="relative w-[220px] md:w-[260px]">
+              <div className="relative w-[180px] sm:w-[220px] md:w-[260px]">
                 <Image
                   src="/Assets/Amy_Style_Assets/HomeScreen.png"
                   alt="MyAudioTour home screen"
@@ -85,7 +85,7 @@ export default function Hero() {
             </div>
 
             {/* Stamp 1 — India Gate */}
-            <div className="absolute top-8 left-4 md:left-10 z-20 w-24 h-24 rotate-[-8deg] rounded-xl overflow-hidden border-4 border-white shadow-lg">
+            <div className="absolute top-4 left-2 sm:top-8 sm:left-4 md:left-10 z-20 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rotate-[-8deg] rounded-xl overflow-hidden border-4 border-white shadow-lg">
               <Image
                 src="/Assets/LeWalk_style_Assets/india-gate.png"
                 alt="India Gate"
@@ -95,7 +95,7 @@ export default function Hero() {
             </div>
 
             {/* Stamp 2 — Golden Temple */}
-            <div className="absolute bottom-12 left-0 md:left-4 z-20 w-20 h-20 rotate-[6deg] rounded-xl overflow-hidden border-4 border-white shadow-lg">
+            <div className="absolute bottom-8 left-2 sm:bottom-12 sm:left-0 md:left-4 z-20 w-14 h-14 sm:w-20 sm:h-20 rotate-[6deg] rounded-xl overflow-hidden border-4 border-white shadow-lg">
               <Image
                 src="/Assets/LeWalk_style_Assets/golden-temple.png"
                 alt="Golden Temple"
@@ -105,27 +105,23 @@ export default function Hero() {
             </div>
 
             {/* Stamp 3 — Charminar */}
-            <div className="absolute top-16 right-2 md:right-0 z-20 w-22 h-22 rotate-[5deg] rounded-xl overflow-hidden border-4 border-white shadow-lg">
-              <div className="relative w-[88px] h-[88px]">
-                <Image
-                  src="/Assets/LeWalk_style_Assets/charminar.png"
-                  alt="Charminar"
-                  fill
-                  className="object-cover rounded-lg"
-                />
-              </div>
+            <div className="absolute top-10 right-2 sm:top-16 md:right-0 z-20 w-16 h-16 sm:w-20 sm:h-20 md:w-[88px] md:h-[88px] rotate-[5deg] rounded-xl overflow-hidden border-4 border-white shadow-lg">
+              <Image
+                src="/Assets/LeWalk_style_Assets/charminar.png"
+                alt="Charminar"
+                fill
+                className="object-cover"
+              />
             </div>
 
             {/* Stamp 4 — Taj Mahal */}
-            <div className="absolute top-64 right-8 md:top-80 md:right-10 z-10 w-20 h-20 rotate-[-6deg] rounded-xl overflow-hidden border-4 border-white shadow-lg">
-              <div className="relative w-[80px] h-[80px]">
-                <Image
-                  src="/Assets/LeWalk_style_Assets/taj-mahal.png"
-                  alt="Taj Mahal"
-                  fill
-                  className="object-cover rounded-lg"
-                />
-              </div>
+            <div className="absolute bottom-4 right-2 sm:top-64 sm:bottom-auto sm:right-8 md:top-80 md:right-10 z-10 w-14 h-14 sm:w-20 sm:h-20 rotate-[-6deg] rounded-xl overflow-hidden border-4 border-white shadow-lg">
+              <Image
+                src="/Assets/LeWalk_style_Assets/taj-mahal.png"
+                alt="Taj Mahal"
+                fill
+                className="object-cover"
+              />
             </div>
 
           </div>

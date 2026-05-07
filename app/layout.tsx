@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import QueryProvider from "@/components/QueryProvider";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -70,6 +71,12 @@ export const metadata: Metadata = {
     "iPhone audio tour app",
   ],
   
+  icons: {
+    icon: "/Assets/SplashIcon.png",
+    shortcut: "/Assets/SplashIcon.png",
+    apple: "/Assets/SplashIcon.png",
+  },
+
   itunes: {
     appId: "6756263024",
   },
@@ -82,6 +89,12 @@ export const metadata: Metadata = {
     },
   },
 }
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export default function RootLayout({
   children,
@@ -127,7 +140,9 @@ export default function RootLayout({
             }),
           }}
         />
-        <QueryProvider>{children}</QueryProvider>
+        <SmoothScroll>
+          <QueryProvider>{children}</QueryProvider>
+        </SmoothScroll>
       </body>
     </html>
   );

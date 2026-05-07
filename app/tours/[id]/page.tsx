@@ -320,7 +320,7 @@ export default function TourDetailsPage() {
     <main className="min-h-screen bg-brand-bg ">
       <Navbar />
 
-      <div className="px-2 mt-28 max-w-6xl mx-auto pb-20">
+      <div className="px-4 sm:px-6 lg:px-8 mt-20 md:mt-28 max-w-6xl mx-auto pb-20">
         {isPending && <TourDetailsSkeleton />}
 
         {isError && (

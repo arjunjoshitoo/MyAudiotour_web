@@ -11,8 +11,8 @@ const columns = [
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy-policy.html" },
+      { label: "Terms of Service", href: "/terms-of-service.html" },
     ],
   },
 ];
@@ -27,7 +27,7 @@ export default function Footer() {
 
           {/* Brand column */}
           <div className="col-span-2 md:col-span-1">
-            <Image src="/Assets/logo.png" alt="MyAudioTour logo" width={192} height={192} className="w-48 h-auto mb-4" />
+            <Image src="/Assets/Logo.png" alt="MyAudioTour logo" width={192} height={192} className="w-48 h-auto mb-4" />
             <p className="font-sans text-sm text-white/40 leading-relaxed max-w-[200px]">
               Free GPS audio guides for India&apos;s greatest landmarks.
             </p>

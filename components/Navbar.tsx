@@ -20,7 +20,7 @@ export default function Navbar() {
         menuOpen ? "bg-white shadow-sm" : scrolled ? "bg-brand-bg border-b border-brand-muted shadow-sm" : "bg-transparent"
       }`}
     >
-      <nav className="max-w-[1500px] mx-auto px-6 flex justify-between h-16 items-center my-[13px]">
+      <nav className="max-w-[1500px] mx-auto px-6 flex justify-between h-16 items-center mt-[13px]">
         {/* Left: hamburger + logo */}
         <div className="flex items-center gap-3">
           {/* Hamburger */}
@@ -36,14 +36,14 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="relative w-48 h-48">
-              <Image src="/Assets/logo.png" alt="MyAudioTour logo" fill className="object-contain" />
+            <div className="relative w-32 h-12 md:w-48 md:h-48">
+              <Image src="/Assets/Logo.png" alt="MyAudioTour logo" fill className="object-contain" />
             </div>
           </Link>
         </div>
 
-        {/* Right: App store badges */}
-        <div className="flex items-center gap-3">
+        {/* Right: App store badges (desktop only) */}
+        <div className="hidden md:flex items-center gap-3">
           <a
             href="https://apps.apple.com/us/app/myaudiotour-travel-guide/id6756263024"
             target="_blank"
@@ -69,8 +69,8 @@ export default function Navbar() {
           menuOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="px-48 overflow-hidden">
-          <div className="px-6 py-6 flex flex-col gap-5">
+        <div className="overflow-hidden">
+          <div className="max-w-[1500px] mx-auto px-6 py-4 flex flex-col gap-4">
             <Link
               href="/"
               className="font-sans text-xl font-medium translate-y-0 transition-transform duration-200"
@@ -85,13 +85,27 @@ export default function Navbar() {
             >
               Tours
             </Link>
-            <Link
-              href="/about"
-              className="font-sans text-xl font-medium"
-              onClick={() => setMenuOpen(false)}
-            >
-              About Us
-            </Link>
+            {/* Store badges in mobile menu */}
+            <div className="flex md:hidden flex-wrap items-center gap-3 pt-2">
+              <a
+                href="https://apps.apple.com/us/app/myaudiotour-travel-guide/id6756263024"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-opacity hover:opacity-80"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Image src="/SVGs/Apple.svg" alt="Download on the App Store" width={120} height={40} />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.audiotour"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-opacity hover:opacity-80"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Image src="/SVGs/Google.svg" alt="Get it on Google Play" width={135} height={40} />
+              </a>
+            </div>
           </div>
         </div>
       </div>

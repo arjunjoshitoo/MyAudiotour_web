@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useCities, useTours } from "@/hooks/useTours";
 import { Tour } from "@/lib/api/tours";
 import Image from "next/image";
@@ -8,6 +9,45 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const IMG_BASE = "https://talsuite2.s3.ap-south-1.amazonaws.com";
+
+function TourCardSkeleton() {
+  return (
+    <div className="animate-pulse">
+      <div className="relative w-full aspect-video bg-brand-muted rounded-xl border border-gray-300" />
+      <div className="pt-3 flex flex-col gap-2">
+        <div className="h-3.5 bg-brand-muted rounded w-4/5" />
+        <div className="h-3.5 bg-brand-muted rounded w-2/3" />
+        <div className="h-3 bg-brand-muted rounded w-1/3 mt-1" />
+      </div>
+    </div>
+  );
+}
+
+function ToursGridSkeleton() {
+  return (
+    <section className="px-6 md:px-10 mb-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <TourCardSkeleton key={i} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CityTabsSkeleton() {
+  const widths = ["w-20", "w-24", "w-28", "w-20", "w-32", "w-24", "w-28", "w-20"];
+  return (
+    <div className="px-6 md:px-10 mb-8 flex gap-2 overflow-hidden py-2">
+      {widths.map((w, i) => (
+        <div
+          key={i}
+          className={`flex-none h-9 ${w} rounded-lg bg-brand-muted animate-pulse`}
+        />
+      ))}
+    </div>
+  );
+}
 
 function TourCard({ tour, cityId }: { tour: Tour; cityId: number }) {
   return (
@@ -90,18 +130,21 @@ export default function ToursPage() {
       <Navbar />
 
       {/* Hero */}
-      <div className="px-6 md:px-10 mt-28 mb-8 max-w-2xl">
-        <h1 className="font-serif text-5xl font-bold leading-tight text-brand-ink mb-4">
+      <div className="px-6 md:px-10 mt-20 md:mt-28 mb-8 max-w-2xl">
+        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-brand-ink mb-4">
           Choose your walk,<br />let the city speak
         </h1>
-        <p className="text-gray-500 text-base leading-relaxed">
+        <p className="text-gray-500 text-sm md:text-base leading-relaxed">
           Browse curated audio tours that guide you through the city&apos;s most iconic
           sites and hidden corners.
         </p>
       </div>
 
       {citiesPending && (
-        <p className="text-gray-400 px-10 py-6">Loading cities…</p>
+        <>
+          <CityTabsSkeleton />
+          <ToursGridSkeleton />
+        </>
       )}
 
       {isError && (
@@ -132,7 +175,7 @@ export default function ToursPage() {
                   onClick={() => setActiveCityId(city.ID)}
                   className={`flex-none whitespace-nowrap px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     city.ID === activeCityId
-                      ? "bg-brand-ink text-white" 
+                      ? "bg-brand-ink text-white"
                       : "bg-gray-100 text-brand-ink hover:bg-gray-200"
                   }`}
                 >
@@ -151,7 +194,7 @@ export default function ToursPage() {
 
           {/* Tours grid */}
           {toursPending ? (
-            <p className="text-gray-400 px-10 py-6">Loading tours…</p>
+            <ToursGridSkeleton />
           ) : (
             <section className="px-6 md:px-10 mb-16">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
@@ -170,6 +213,8 @@ export default function ToursPage() {
           )}
         </>
       )}
+
+      {!citiesPending && !toursPending && <Footer />}
     </main>
   );
 }
