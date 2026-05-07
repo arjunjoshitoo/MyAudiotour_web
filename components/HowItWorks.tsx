@@ -95,6 +95,7 @@ function StepCard({
           src={step.image}
           alt={step.alt}
           fill
+          sizes="(max-width: 768px) 100vw, 400px"
           className="object-contain rounded-3xl p-2"
         />
       </div>
