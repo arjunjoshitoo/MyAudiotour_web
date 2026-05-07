@@ -83,6 +83,7 @@ function PhotoGrid({
               sizes="(max-width: 1024px) 100vw, 55vw"
               className="object-cover"
               priority
+              unoptimized
             />
           </div>
 
@@ -100,6 +101,7 @@ function PhotoGrid({
                     fill
                     sizes="(max-width: 1024px) 50vw, 28vw"
                     className="object-cover"
+                    unoptimized
                   />
                 </div>
               ))}
@@ -281,6 +283,7 @@ function StopTimeline({ stops }: { stops: TourStop[] }) {
                   fill
                   sizes="128px"
                   className="object-cover"
+                  unoptimized
                 />
               </div>
             )}
