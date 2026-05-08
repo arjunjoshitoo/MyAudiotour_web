@@ -10,11 +10,44 @@ import {
   MarkerTooltip,
   useMap,
 } from "@/components/ui/map";
-import type { TourStop } from "@/lib/api/tours";
+import type { RouteStep, TourStop } from "@/lib/api/tours";
 import { cn } from "@/lib/utils";
 
 const LIBERTY_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 const BUILDINGS_LAYER_ID = "3d-buildings";
+
+// Google encoded polyline → array of [lng, lat] pairs (precision 5).
+function decodePolyline(str: string): [number, number][] {
+  const coords: [number, number][] = [];
+  let index = 0;
+  let lat = 0;
+  let lng = 0;
+
+  while (index < str.length) {
+    let b: number;
+    let shift = 0;
+    let result = 0;
+    do {
+      b = str.charCodeAt(index++) - 63;
+      result |= (b & 0x1f) << shift;
+      shift += 5;
+    } while (b >= 0x20);
+    lat += result & 1 ? ~(result >> 1) : result >> 1;
+
+    shift = 0;
+    result = 0;
+    do {
+      b = str.charCodeAt(index++) - 63;
+      result |= (b & 0x1f) << shift;
+      shift += 5;
+    } while (b >= 0x20);
+    lng += result & 1 ? ~(result >> 1) : result >> 1;
+
+    coords.push([lng / 1e5, lat / 1e5]);
+  }
+
+  return coords;
+}
 
 function ThreeDLayer({ enabled }: { enabled: boolean }) {
   const { map, isLoaded } = useMap();
@@ -101,7 +134,13 @@ function ThreeDToggle({
   );
 }
 
-export default function TourMap({ stops }: { stops: TourStop[] }) {
+export default function TourMap({
+  stops,
+  routeSteps = [],
+}: {
+  stops: TourStop[];
+  routeSteps?: RouteStep[];
+}) {
   const [is3D, setIs3D] = useState(false);
 
   const points = useMemo(
@@ -118,27 +157,57 @@ export default function TourMap({ stops }: { stops: TourStop[] }) {
     [stops],
   );
 
+  // For each stop in StopNo order, walk its routing steps (sorted by OrdPos),
+  // decode each step's polyline, and stitch them end-to-end. Skips duplicate
+  // joint vertices where one segment ends where the next begins. Falls back to
+  // straight lines through stop points if no routing data is available.
+  const routeCoords = useMemo<[number, number][]>(() => {
+    const stepsByStopId: Record<number, RouteStep[]> = {};
+    for (const step of routeSteps) {
+      (stepsByStopId[step.NextTourPlaceMapID] ??= []).push(step);
+    }
+
+    const out: [number, number][] = [];
+    const orderedStops = [...stops].sort((a, b) => a.StopNo - b.StopNo);
+    for (const stop of orderedStops) {
+      const segments = (stepsByStopId[stop.TourPlaceMapID] ?? [])
+        .slice()
+        .sort((a: RouteStep, b: RouteStep) => a.OrdPos - b.OrdPos);
+      for (const step of segments) {
+        for (const c of decodePolyline(step.Polyline)) {
+          const last = out[out.length - 1];
+          if (!last || last[0] !== c[0] || last[1] !== c[1]) out.push(c);
+        }
+      }
+    }
+
+    if (out.length === 0) {
+      return points.map((p) => [p.lng, p.lat] as [number, number]);
+    }
+    return out;
+  }, [stops, routeSteps, points]);
+
   const bounds = useMemo<[[number, number], [number, number]] | null>(() => {
     if (points.length === 0) return null;
     let minLng = points[0].lng;
     let maxLng = points[0].lng;
     let minLat = points[0].lat;
     let maxLat = points[0].lat;
-    for (const p of points) {
-      if (p.lng < minLng) minLng = p.lng;
-      if (p.lng > maxLng) maxLng = p.lng;
-      if (p.lat < minLat) minLat = p.lat;
-      if (p.lat > maxLat) maxLat = p.lat;
-    }
+    const extend = (lng: number, lat: number) => {
+      if (lng < minLng) minLng = lng;
+      if (lng > maxLng) maxLng = lng;
+      if (lat < minLat) minLat = lat;
+      if (lat > maxLat) maxLat = lat;
+    };
+    for (const p of points) extend(p.lng, p.lat);
+    for (const [lng, lat] of routeCoords) extend(lng, lat);
     return [
       [minLng, minLat],
       [maxLng, maxLat],
     ];
-  }, [points]);
+  }, [points, routeCoords]);
 
   if (points.length === 0) return null;
-
-  const routeCoords: [number, number][] = points.map((p) => [p.lng, p.lat]);
 
   return (
     <Map
@@ -150,7 +219,7 @@ export default function TourMap({ stops }: { stops: TourStop[] }) {
       <MapControls />
       <ThreeDToggle enabled={is3D} onToggle={() => setIs3D((v) => !v)} />
       <ThreeDLayer enabled={is3D} />
-      <MapRoute coordinates={routeCoords} color="#1A1A1A" width={3} opacity={0.9} />
+      <MapRoute coordinates={routeCoords} color="#2563EB" width={3} opacity={0.9} />
       {points.map((p) => (
         <MapMarker key={p.id} longitude={p.lng} latitude={p.lat}>
           <MarkerContent>

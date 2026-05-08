@@ -44,14 +44,23 @@ export interface TourStop {
   Long: number;
   DistanceKM: string | null;
   Duration: string | null;
-  EncodedPolyline: string | null;
   IsCurrentInProgress: number;
   AudioProgressSecs: number;
+}
+
+// Turn-by-turn routing step. Steps with the same NextTourPlaceMapID, sorted by
+// OrdPos, form the path from the previous stop to that stop. Polyline is a
+// Google encoded polyline (precision 5).
+export interface RouteStep {
+  NextTourPlaceMapID: number;
+  OrdPos: number;
+  Polyline: string;
 }
 
 export interface TourDetailsResponse {
   tour: TourDetail;
   stops: TourStop[];
+  routeSteps: RouteStep[];
 }
 
 export interface ToursResponse {
@@ -106,8 +115,11 @@ export async function fetchTour(
 
   if (!res.ok) throw new Error(`tours-details failed: ${res.status}`);
 
-  const data: [TourDetail[], TourStop[]] = await res.json();
-  return { tour: data[0][0], stops: data[1] };
+  // The endpoint returns 4 arrays: [tour], [stops], [routeSteps], [reviews].
+  const data: [TourDetail[], TourStop[], RouteStep[], unknown] = await res.json();
+  // Drop placeholder "next tour" entries (TourPlaceMapID === -1) — not part of the route.
+  const stops = data[1].filter((s) => s.TourPlaceMapID !== -1);
+  return { tour: data[0][0], stops, routeSteps: data[2] ?? [] };
 }
 
 export async function fetchPlaceAudio(placeId: number): Promise<string | null> {

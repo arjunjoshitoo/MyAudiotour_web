@@ -312,6 +312,7 @@ export default function TourDetailsPage() {
   const { data, isPending, isError, error } = useTour(Number(id), cityId);
   const tour = data?.tour;
   const stops = data?.stops ?? [];
+  const routeSteps = data?.routeSteps ?? [];
 
   const startPlaceId = stops.find((s) => s.StopNo === 1)?.PlaceID;
   const { data: previewAudio } = usePlaceAudio(startPlaceId);
@@ -447,7 +448,7 @@ export default function TourDetailsPage() {
 
                 {/* Map (sticky) */}
                 <div className="h-fit">
-                  <TourMap stops={stops} />
+                  <TourMap stops={stops} routeSteps={routeSteps} />
                 </div>
               </div>
             )}
