@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const IMG_BASE = "https://talsuite2.s3.ap-south-1.amazonaws.com";
+const IMG_BASE = "https://tal203091.s3.ap-south-1.amazonaws.com";
 
 function TourCardSkeleton() {
   return (

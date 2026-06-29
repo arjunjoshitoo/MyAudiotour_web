@@ -16,7 +16,7 @@ const TourMap = dynamic(() => import("@/components/TourMap"), {
   ),
 });
 
-const IMG_BASE = "https://talsuite2.s3.ap-south-1.amazonaws.com";
+const IMG_BASE = "https://tal203091.s3.ap-south-1.amazonaws.com";
 
 function Lightbox({
   src,
